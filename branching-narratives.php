@@ -123,6 +123,7 @@ function quizanswer_shortcode($atts, $content = null ) {
 }
 add_shortcode('ответ', 'quizanswer_shortcode');
 
-
+require_once('branching-narratives-install.php');
+register_activation_hook( __FILE__, 'branching_narratives_install');
 
 
