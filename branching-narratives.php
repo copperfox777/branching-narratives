@@ -40,18 +40,6 @@ function create_posttype_narratives() {
 }
 add_action( 'init', 'create_posttype_narratives' );
 
-
-
-//Попытка добавить меню 
-function narratives_menu() {
-	$page_hook_suffix = add_posts_page( 'Викторины', 'Викторины', 'edit_posts', 'tquiz-admin-page', 'tquiz_admin' );
-	//add_posts_page('Редактирование викторины', 'Редактирование викторины', 'edit_posts', 'tquiz-edit-quiz', 'tquiz_edit' );
-	add_action('admin_print_scripts-' . $page_hook_suffix, 'tp_admin_custom_scripts');
-
-	add_submenu_page("edit.php","Настройки Викторин","Настройки викторин","manage_options","tp_quiz_config","tp_quiz_config");
-}
-add_action( 'admin_menu', 'narratives_menu' );
-
 //Добавляем для типа записи "нарратив" загрузку нашего js
 function load_scripts() {
     if( is_singular('narratives') )
