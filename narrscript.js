@@ -5,16 +5,23 @@ jQuery(document).ready(function($){
 //Выполняем аякс запрос в базу данных
 function SendAnswerToDatabase(goto_name) {
 
-	jQuery.ajax({
-		type:"POST",
-		url: "/wp-admin/admin-ajax.php",
-		data: goto_name,
-		success:function(data){
-			alert(data)
-		}
-	});
+    request = jQuery.ajax({
+        type: "POST",
+        url: "/wp-content/plugins/branching-narratives/fast-ajax-save-results.php",
+        data: goto_name,
+        success: function (data) {
+            alert(data)
+        }
+    });
 
-	return false;
+    request.done(function (msg) {
+        alert(msg);
+    });
+
+    request.fail(function (jqXHR, textStatus) {
+        alert("Request failed: " + textStatus);
+    });
+   return false;
 }
 
 
