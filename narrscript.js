@@ -1,19 +1,37 @@
 jQuery(document).ready(function($){
-    $('div[goto]').click(MakeNextStep);
+    $('div[goto]').click(MakeNextStep);  
 });
+
+//Р’С‹РїРѕР»РЅСЏРµРј Р°СЏРєСЃ Р·Р°РїСЂРѕСЃ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
+function SendAnswerToDatabase(goto_name) {
+
+	jQuery.ajax({
+		type:"POST",
+		url: "/wp-admin/admin-ajax.php",
+		data: goto_name,
+		success:function(data){
+			alert(data)
+		}
+	});
+
+	return false;
+}
+
 
 function MakeNextStep() {
   //  var activeZone=$('section[label="active"]');
     
-    var goto =  jQuery(this).attr('goto');                       	// получаем от нажатой кнопки лейбл куда идти по сюжету
-    goto='section[label="'+goto+'"]';							 	// преобразуем это в строку которую будем использовать в запросе
-    var NextText= jQuery(goto).html();                         	  	// получаем текст в виде html из искомого лейбла а именно из 
-																	// из section с нужным лейблом
+    var goto_name =  jQuery(this).attr('goto');                       	// РїРѕР»СѓС‡Р°РµРј РѕС‚ РЅР°Р¶Р°С‚РѕР№ РєРЅРѕРїРєРё Р»РµР№Р±Р» РєСѓРґР° РёРґС‚Рё РїРѕ СЃСЋР¶РµС‚Сѓ
+	SendAnswerToDatabase(goto_name);
+	
+    goto_name='section[label="'+goto_name+'"]';							 	// РїСЂРµРѕР±СЂР°Р·СѓРµРј СЌС‚Рѕ РІ СЃС‚СЂРѕРєСѓ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґРµРј РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІ Р·Р°РїСЂРѕСЃРµ
+    var NextText= jQuery(goto_name).html();                         	  	// РїРѕР»СѓС‡Р°РµРј С‚РµРєСЃС‚ РІ РІРёРґРµ html РёР· РёСЃРєРѕРјРѕРіРѕ Р»РµР№Р±Р»Р° Р° РёРјРµРЅРЅРѕ РёР· 
+																	// РёР· section СЃ РЅСѓР¶РЅС‹Рј Р»РµР№Р±Р»РѕРј
 
     jQuery('section[label="active"]').fadeTo('medium', 0, function(){
-        jQuery(this).html(NextText);                             	//Собственно переносим текст из скрытого блока в активный
+        jQuery(this).html(NextText);                             	//вЂ”РѕР±СЃС‚РІРµРЅРЅРѕ РїРµСЂРµРЅРѕСЃРёРј С‚РµРєСЃС‚ РёР· СЃРєСЂС‹С‚РѕРіРѕ Р±Р»РѕРєР° РІ Р°РєС‚РёРІРЅС‹Р№
     }
-    ).fadeTo('slow',1,function(){								 	// сопровождаем это немного анимацией
-        jQuery('div[goto]').click(MakeNextStep);   					// заново привязываем к кнопкам события потому что появились новые кнопки
+    ).fadeTo('slow',1,function(){								 	// СЃРѕРїСЂРѕРІРѕР¶РґР°РµРј СЌС‚Рѕ РЅРµРјРЅРѕРіРѕ Р°РЅРёРјР°С†РёРµР№
+        jQuery('div[goto]').click(MakeNextStep);   					// Р·Р°РЅРѕРІРѕ РїСЂРёРІВ¤Р·С‹РІР°РµРј Рє РєРЅРѕРїРєР°Рј СЃРѕР±С‹С‚РёВ¤ РїРѕС‚РѕРјСѓ С‡С‚Рѕ РїРѕВ¤РІРёР»РёСЃСЊ РЅРѕРІС‹Рµ РєРЅРѕРїРєРё
     });
 }

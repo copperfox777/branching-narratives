@@ -5,7 +5,7 @@ function branching_narratives_install() {
 	$charset_collate = $wpdb->get_charset_collate();
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	// òàáëèöà äëÿ õðàíåíèÿ îòâåòîâ íàððàòèâà 
+	// Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð° Ð´Ð»Ñ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð¾Ð² Ð½Ð°Ñ€Ñ€Ð°Ñ‚Ð¸Ð²Ð° 
 	$sql = "CREATE TABLE ".$wpdb->prefix."branching_narratives_list (
 			id int(10) NOT NULL AUTO_INCREMENT,
 			post_id int(10) NOT NULL,

@@ -50,6 +50,11 @@ function load_scripts() {
 }
 add_action('wp_enqueue_scripts', 'load_scripts');
 
+//Подключаем установку плагина - это делается для создания таблицы в базе данных
+require_once('branching-narratives-install.php');
+register_activation_hook( __FILE__, 'branching_narratives_install');
+
+
 //Отключение <br>
 function my_custom_formatting($content){
 	if(get_post_type()=='narratives') {
@@ -60,6 +65,9 @@ function my_custom_formatting($content){
 }
 add_filter('the_content','my_custom_formatting',0);
 
+
+
+//ШОРТКОДЫ
 //Шорткоды начальной секции - сюда будет помещен овет
 function main_section_shortcode($atts, $content = null ) {
     extract(shortcode_atts(array(
@@ -123,7 +131,5 @@ function quizanswer_shortcode($atts, $content = null ) {
 }
 add_shortcode('ответ', 'quizanswer_shortcode');
 
-require_once('branching-narratives-install.php');
-register_activation_hook( __FILE__, 'branching_narratives_install');
 
 
