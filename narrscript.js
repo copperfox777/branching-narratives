@@ -15,7 +15,7 @@ function SendAnswerToDatabase(goto_name) {
         data: data,
         dataType: "text",
         success: function (data) {
-            alert(data)
+            // alert(data)
         },
         error: function (data) {
             alert('error');

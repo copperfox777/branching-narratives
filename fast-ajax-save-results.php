@@ -23,17 +23,16 @@ if( $result )
 	} */
 
 $database_table = $wpdb->prefix."branching_narratives_list";
-echo $database_table;
 
-/* if($wpdb->insert($database_table,array(
+ if($wpdb->insert($database_table,array(
     'post_id'=>$post_id,
     'result'=>$goto_name,
-    'time'=>$time,
+    'time'=>$time
     ))===FALSE){
         echo "Error";
     }
     else {
-        echo "Success";
+        // echo "Success";
     }
     //die();
-} */
+

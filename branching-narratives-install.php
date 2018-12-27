@@ -10,7 +10,7 @@ function branching_narratives_install() {
 			id int(10) NOT NULL AUTO_INCREMENT,
 			post_id int(10) NOT NULL,
 			result text NOT NULL,
-			time int(10) NOT NULL,            
+			time datetime NOT NULL,            
 			UNIQUE KEY id (id)
 	) $charset_collate;";
 
