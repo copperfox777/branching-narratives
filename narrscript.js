@@ -4,26 +4,24 @@ jQuery(document).ready(function ($) {
 
 //Выполняем аякс запрос в базу данных
 function SendAnswerToDatabase(goto_name) {
+    var data = {
+        post_id: jQuery('article').attr('id').slice(5),
+        goto_name: goto_name,
+    };
 
-    request = jQuery.ajax({
-        type: "POST",
+    jQuery.ajax({
         url: "/wp-content/plugins/branching-narratives/fast-ajax-save-results.php",
-        data: goto_name,
+        type: "POST",
+        data: data,
+        dataType: "text",
         success: function (data) {
             alert(data)
         },
         error: function (data) {
-            alert(data);
+            alert('error');
         }
     });
 
-    request.done(function (msg) {
-        alert(msg);
-    });
-
-    request.fail(function (jqXHR, textStatus) {
-        alert("Request failed: " + textStatus);
-    });
     return false;
 }
 
