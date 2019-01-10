@@ -10,6 +10,7 @@ header('Pragma: no-cache');
 
 $post_id = $_POST['post_id'];
 $goto_name = $_POST['goto_name'];
+$session_id = $_POST['session_id'];
 date_default_timezone_set('Russia/Moscow');
 $time = date("Y-m-d H:i:s", time());
 
@@ -27,6 +28,7 @@ $database_table = $wpdb->prefix."branching_narratives_list";
  if($wpdb->insert($database_table,array(
     'post_id'=>$post_id,
     'result'=>$goto_name,
+    'session_id'=>$session_id,
     'time'=>$time
     ))===FALSE){
         echo "Error";

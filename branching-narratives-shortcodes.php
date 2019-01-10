@@ -1,15 +1,15 @@
 <?php
-//Шорткоды начальной секции - сюда будет помещен овет
+//Шорткоды начальной секции, показывается один раз при зугрузке, она впоследствии будет затёрта новым текстом. 
 function main_section_shortcode($atts, $content = null ) {
     extract(shortcode_atts(array(
         'name' => 'name'
     ), $atts));
     
-	$begining='<section label="active">';
+	$begining='<section name="active">';
 	$end = '</section>';
 	return $begining . do_shortcode($content) . $end;
 }
-add_shortcode('начальная_секция', 'main_section_shortcode');
+add_shortcode('вступление', 'main_section_shortcode');
 
 
 //Шорткоды секций - это основное содержание
@@ -18,7 +18,7 @@ function section_shortcode($atts, $content = null ) {
         'name' => 'name'
     ), $atts));
     
-	$begining='<section class="hidden" label="' . $name . '">';
+	$begining='<section class="hidden" name="' . $name . '">';
 	$end = '</section>';
 	return $begining . do_shortcode($content) . $end;
 }

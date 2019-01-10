@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    var session_id = make_random_id();
+    session_id = make_random_id();
     $('div[goto]').click(MakeNextStep);
 });
 
