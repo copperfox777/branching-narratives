@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+    var session_id = make_random_id();
     $('div[goto]').click(MakeNextStep);
 });
 
@@ -7,6 +8,7 @@ function SendAnswerToDatabase(goto_name) {
     var data = {
         post_id: jQuery('article').attr('id').slice(5),
         goto_name: goto_name,
+        session_id: session_id
     };
 
     jQuery.ajax({
@@ -25,6 +27,15 @@ function SendAnswerToDatabase(goto_name) {
     return false;
 }
 
+function make_random_id() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+  }
 
 function MakeNextStep() {
     //  var activeZone=$('section[label="active"]');

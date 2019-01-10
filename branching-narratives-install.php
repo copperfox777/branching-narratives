@@ -9,6 +9,7 @@ function branching_narratives_install() {
 	$sql = "CREATE TABLE ".$wpdb->prefix."branching_narratives_list (
 			id int(10) NOT NULL AUTO_INCREMENT,
 			post_id int(10) NOT NULL,
+			session_id CHAR(5) NOT NULL,
 			result text NOT NULL,
 			time datetime NOT NULL,            
 			UNIQUE KEY id (id)
