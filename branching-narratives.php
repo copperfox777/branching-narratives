@@ -24,7 +24,7 @@ function create_posttype_narratives() {
 			'hierarchical'        => false,
 			'show_ui'             => true,
 			//'show_in_menu'        => true,
-			'show_in_menu' => 'edit.php',
+			'show_in_menu' => 'edit.php',    //переносим нарративы в меню при создании
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'has_archive'         => true,
@@ -54,6 +54,9 @@ add_action('wp_enqueue_scripts', 'load_scripts');
 require_once('branching-narratives-install.php');
 register_activation_hook( __FILE__, 'branching_narratives_install');
 
+//подключаем урезанную псевдоадминку (а по сути страницу статистики)
+require_once('branching-narratives-admin-page.php');
+add_action( 'admin_menu', 'branching_narratives_menu' );
 
 //Отключение <br>
 function my_custom_formatting($content){
