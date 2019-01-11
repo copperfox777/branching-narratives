@@ -54,11 +54,12 @@ add_action('wp_enqueue_scripts', 'load_scripts');
 require_once('branching-narratives-install.php');
 register_activation_hook( __FILE__, 'branching_narratives_install');
 
-//подключаем урезанную псевдоадминку (а по сути страницу статистики)
+/* //подключаем урезанную псевдоадминку (а по сути страницу статистики)
 require_once('branching-narratives-admin-page.php');
 add_action( 'admin_menu', 'branching_narratives_menu' );
+ */
 
-//Отключение <br>
+ //Отключение <br>
 function my_custom_formatting($content){
 	if(get_post_type()=='narratives') {
 		remove_filter( 'the_content', 'wpautop' );
@@ -71,7 +72,36 @@ add_filter('the_content','my_custom_formatting',0);
 //Подключаем функционал шорткодов
 require_once('branching-narratives-shortcodes.php');
 
+//Добавляем ссылку на статистику для нарратива для страницы списка всех нарративов
+function my_stat_post_link($actions, $post)
+{
+    if ($post->post_type=='narratives')
+    {
+        $actions['statistics'] = '<a href="#" title="" rel="permalink">Statistics</a>';
+    }
+    return $actions;
+}
+add_filter('post_row_actions', 'my_stat_post_link', 10, 2);
 
+// Добавляем для нарратива колонку со статистикой
+add_filter( 'manage_narratives_posts_columns', 'set_custom_edit_narratives_columns' );
+function set_custom_edit_narratives_columns($columns) {
+	unset( $columns['author'] );
+	unset( $columns['tags'] );
+    $columns['statistics'] = 'Краткая статистика';
+    return $columns;
+}
+// И заполняем эту колонку
+add_action( 'manage_narratives_posts_custom_column' , 'custom_narratives_column', 10, 2 );
+function custom_narratives_column( $column, $post_id ) {
+    switch ( $column ) {
+
+		case 'statistics' :
+			echo 'Тут должна быть статистика';
+			break;
+			
+    }
+}
 
 
 
