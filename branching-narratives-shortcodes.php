@@ -1,16 +1,38 @@
 <?php
-//Шорткоды начальной секции, показывается один раз при зугрузке, она впоследствии будет затёрта новым текстом. 
-function main_section_shortcode($atts, $content = null ) {
+ //Шорткод вступления показывается один раз при зугрузке, она впоследствии будет затёрта новым текстом. 
+function introduction_shortcode($atts, $content = null ) {
     extract(shortcode_atts(array(
         'name' => 'name'
     ), $atts));
     
 	$begining='<section name="active">';
+    $end = '<hr>
+    <div class="quiz_item" style="display: block;">
+    <div class="answers">
+    <div style="text-align:center;">
+    <button class="quiz_button" style="display:block;cursor:pointer;" goto="start" >Начать тест</button>
+    </div>
+    </div>
+    </div>
+</section>';
+	return $begining . $content . $end;
+}
+add_shortcode('вступление', 'introduction_shortcode'); 
+//TODO: Перенести стили в стайл CSS
+
+
+
+//Шорткод старта 
+function start_shortcode($atts, $content = null ) {
+    extract(shortcode_atts(array(
+        'name' => 'name'
+    ), $atts));
+    
+	$begining='<section class="hidden" name="start">';
 	$end = '</section>';
 	return $begining . do_shortcode($content) . $end;
 }
-add_shortcode('вступление', 'main_section_shortcode');
-
+add_shortcode('старт', 'start_shortcode'); 
 
 //Шорткоды секций - это основное содержание
 function section_shortcode($atts, $content = null ) {
@@ -23,7 +45,6 @@ function section_shortcode($atts, $content = null ) {
 	return $begining . do_shortcode($content) . $end;
 }
 add_shortcode('секция', 'section_shortcode');
-
 
 //Шорткод области выбора
 function quizitem_shortcode($atts,$content = null ) {
@@ -61,3 +82,17 @@ function quizanswer_shortcode($atts, $content = null ) {
 	return $begining . do_shortcode($content) . $end;   
 }
 add_shortcode('ответ', 'quizanswer_shortcode');
+
+//Ответ
+function quizbutton_shortcode($atts, $content = null ) {
+    extract(shortcode_atts(array(
+        'goto' => 'goto',
+        'text' => 'text'
+    ), $atts));
+    
+
+    $begining='<div style="text-align:center;">
+    <button class="quiz_button" style="display:block;cursor:pointer;" goto="'.$goto.'" >'.$text.'</button></div>';
+    return $begining;   
+}
+add_shortcode('кнопка', 'quizbutton_shortcode');

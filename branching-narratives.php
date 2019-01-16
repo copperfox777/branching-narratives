@@ -97,10 +97,53 @@ function custom_narratives_column( $column, $post_id ) {
     switch ( $column ) {
 
 		case 'statistics' :
-			echo 'Тут должна быть статистика';
+			
+		
+			
+
+
+
 			break;
 			
     }
+}
+
+
+function showNarrStat() {
+	global $wpdb;
+	$ajax_nonce = wp_create_nonce("tproger_quiz_secret");
+	// извлекаем все виктрины
+	$list = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."tquiz_list WHERE hidden_=0 ORDER BY `time` DESC", ARRAY_A);
+	$count = count($list); // сколько всего викторин?
+	echo "<input type='hidden' value='".$ajax_nonce."' id='secret_ajax_nonce'/>";
+	// выводим списко викторин на экран
+	// TODO: переписать с использованием wp_table_list class 
+	echo "<table id='quiz_list_table' class='wp-list-table widefat fixed striped' style='display:none;'>";
+	echo "<thead><tr>
+		<th width=50px>#</th>
+		<th>Название викторины</th>
+		<th>Дата</th>
+		<th>Код для вставки</th>
+		<th>Количество прошедших тест</th>
+		<th width=50px></th>
+	</tr></thead>";
+	foreach ($list as $item => $quiz) {
+		$voted = $wpdb->get_results("SELECT MIN(voted) as 'voted' FROM ".$wpdb->prefix."tquiz_questions WHERE quiz_id = ".$quiz['id'], ARRAY_A);
+		echo "<tr>";
+		echo "<td>".($count - $item)."</td>";
+		echo '<td><a href="?page=tquiz-admin-page&act=edit&quiz_id='.$quiz['id'].'" target="_blank">
+		'.$quiz['name'].'</a> </td>';
+		echo '<td>('.date('d.m.y h:i', $quiz['time']).')</td>';
+		echo '<td><input type="text" value="[tquiz id=&quot;'.$quiz['id'].'&quot;]"></td>';
+		echo "<td>".($voted[0]['voted'])."</td>";
+		echo "<td>
+			<a href='?page=tquiz-admin-page&act=edit&quiz_id=".$quiz['id']."' target='_blank'><span class='dashicons dashicons-edit'></span></a>
+			<span class='edit_quiz' data-quiz_id=".$quiz['id']."></span>
+			<span class='delete_quiz' data-quiz_id=".$quiz['id']."><span class='dashicons dashicons-trash'></span></span>
+		</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
 }
 
 

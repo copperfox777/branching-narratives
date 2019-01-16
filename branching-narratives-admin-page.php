@@ -1,4 +1,8 @@
 <?php
+// В данные момент функционал этого файла отключен в branching-narratives.php
+// Оставляем только на всякий случай если захочется сделать свою админку 
+
+
 // добавляем панель управления плагином
 function branching_narratives_menu() {
 	$page_hook_suffix = add_posts_page( 'Нарративы_1', 'Статистика нарративов', 'edit_posts', 'branching-narratives-admin-page', 'branching_narratives_admin' );
@@ -48,7 +52,7 @@ function branching_narratives_admin() {
 	?>
 
 	<div class="wrap" id="branching_narratives">
-		<h1>Нарративы <a href="/wp-admin/post-new.php?post_type=narratives" class="page-title-action" id="create">Добавить новую</a></h1>
+		<h1>Нарративы <a href="/wp-admin/post-new.php?post_type=narratives" class="page-title-action" id="create">Добавить новый нарратив</a></h1>
 
 
 		<div id="quiz_list">

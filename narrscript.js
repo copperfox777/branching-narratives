@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     session_id = make_random_id();
-    $('div[goto]').click(MakeNextStep);
+    $('[goto]').click(MakeNextStep);
 });
 
 //Выполняем аякс запрос в базу данных
@@ -47,9 +47,9 @@ function MakeNextStep() {
     var NextText = jQuery(goto_name).html(); // получаем текст в виде html из искомого лейбла а именно из 
     // из section с нужным лейблом
 
-    jQuery('section[name="active"]').fadeTo('medium', 0, function () {
+    jQuery('section[name="active"]').fadeTo('fast', 0, function () {
         jQuery(this).html(NextText); //—обственно переносим текст из скрытого блока в активный
-    }).fadeTo('slow', 1, function () { // сопровождаем это немного анимацией
-        jQuery('div[goto]').click(MakeNextStep); // заново прив¤зываем к кнопкам событи¤ потому что по¤вились новые кнопки
+    }).fadeTo('medium', 1, function () { // сопровождаем это немного анимацией
+        jQuery('[goto]').click(MakeNextStep); // заново прив¤зываем к кнопкам событи¤ потому что по¤вились новые кнопки
     });
 }
