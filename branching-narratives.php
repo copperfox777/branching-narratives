@@ -55,6 +55,7 @@ require_once('branching-narratives-install.php');
 register_activation_hook( __FILE__, 'branching_narratives_install');
 
 /* //подключаем урезанную псевдоадминку (а по сути страницу статистики)
+// Админка в дальнейшем не требуется, всё решено стандартным методом
 require_once('branching-narratives-admin-page.php');
 add_action( 'admin_menu', 'branching_narratives_menu' );
  */
@@ -129,7 +130,7 @@ function custom_narratives_column( $column, $post_id ) {
     }
 }
 
-
+ 
 /* function showNarrStat($post_id) {
 	global $wpdb;
 
