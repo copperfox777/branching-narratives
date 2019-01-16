@@ -73,7 +73,8 @@ add_filter('the_content','my_custom_formatting',0);
 require_once('branching-narratives-shortcodes.php');
 
 //Добавляем ссылку на статистику для нарратива для страницы списка всех нарративов
-function my_stat_post_link($actions, $post)
+// Пока не нужно потому что ститистика в сжатом виде и так норм
+/* function my_stat_post_link($actions, $post)
 {
     if ($post->post_type=='narratives')
     {
@@ -81,7 +82,7 @@ function my_stat_post_link($actions, $post)
     }
     return $actions;
 }
-add_filter('post_row_actions', 'my_stat_post_link', 10, 2);
+add_filter('post_row_actions', 'my_stat_post_link', 10, 2); */
 
 // Добавляем для нарратива колонку со статистикой
 add_filter( 'manage_narratives_posts_columns', 'set_custom_edit_narratives_columns' );
@@ -95,56 +96,46 @@ function set_custom_edit_narratives_columns($columns) {
 add_action( 'manage_narratives_posts_custom_column' , 'custom_narratives_column', 10, 2 );
 function custom_narratives_column( $column, $post_id ) {
     switch ( $column ) {
-
 		case 'statistics' :
-			
+		global $wpdb;
 		
-			
+		// Колличество нажатий "начать"
+		/* $starts = $wpdb->get_results("SELECT COUNT(*) AS itm FROM ".$wpdb->prefix."branching_narratives_list WHERE result='start' AND post_id=".$post_id,ARRAY_A);
+		 */
+		
+		 // В скольки сессиях были нажатия, сессий может быть меньше если кто то прошел более 1 раза за сессию
+		$sessions = $wpdb->get_results("SELECT COUNT(DISTINCT session_id) AS itm FROM ".$wpdb->prefix."branching_narratives_list WHERE post_id=".$post_id,ARRAY_A);
+		// Сколько раз было что то нажато в том числе финиши
+		$clicks = $wpdb->get_results("SELECT COUNT(result) AS cnt, result FROM ".$wpdb->prefix."branching_narratives_list WHERE 
+		post_id=".$post_id." GROUP BY result",ARRAY_A);
+		/* $clicks = $wpdb->get_results("SELECT COUNT(result) AS itm, result FROM ".$wpdb->prefix."branching_narratives_list WHERE 
+		result LIKE '%finish%' AND post_id=".$post_id." GROUP BY result",ARRAY_A);
+		 */
+		
+		// Выводим статистику
+		echo 'Колличество  сессий: '; print_r($sessions[0]["itm"]); echo '<br>';
+		
+		foreach (array_reverse($clicks) as $item) {
+			if(preg_match("/(start|finish)/i", $item['result'])){
+			echo 'Колличество '.$item['result'].": ".$item['cnt']."</br>";
+			// echo '<pre>'; echo list($item); echo '</pre>';
+		   }
+		}
 
-
-
-			break;
-			
+		// echo '<pre>Отладка:'; print_r($clicks); echo '</pre>';
+		// echo $post_id;
+		break;
+		 	
     }
 }
 
 
-function showNarrStat() {
+/* function showNarrStat($post_id) {
 	global $wpdb;
-	$ajax_nonce = wp_create_nonce("tproger_quiz_secret");
-	// извлекаем все виктрины
-	$list = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."tquiz_list WHERE hidden_=0 ORDER BY `time` DESC", ARRAY_A);
-	$count = count($list); // сколько всего викторин?
-	echo "<input type='hidden' value='".$ajax_nonce."' id='secret_ajax_nonce'/>";
-	// выводим списко викторин на экран
-	// TODO: переписать с использованием wp_table_list class 
-	echo "<table id='quiz_list_table' class='wp-list-table widefat fixed striped' style='display:none;'>";
-	echo "<thead><tr>
-		<th width=50px>#</th>
-		<th>Название викторины</th>
-		<th>Дата</th>
-		<th>Код для вставки</th>
-		<th>Количество прошедших тест</th>
-		<th width=50px></th>
-	</tr></thead>";
-	foreach ($list as $item => $quiz) {
-		$voted = $wpdb->get_results("SELECT MIN(voted) as 'voted' FROM ".$wpdb->prefix."tquiz_questions WHERE quiz_id = ".$quiz['id'], ARRAY_A);
-		echo "<tr>";
-		echo "<td>".($count - $item)."</td>";
-		echo '<td><a href="?page=tquiz-admin-page&act=edit&quiz_id='.$quiz['id'].'" target="_blank">
-		'.$quiz['name'].'</a> </td>';
-		echo '<td>('.date('d.m.y h:i', $quiz['time']).')</td>';
-		echo '<td><input type="text" value="[tquiz id=&quot;'.$quiz['id'].'&quot;]"></td>';
-		echo "<td>".($voted[0]['voted'])."</td>";
-		echo "<td>
-			<a href='?page=tquiz-admin-page&act=edit&quiz_id=".$quiz['id']."' target='_blank'><span class='dashicons dashicons-edit'></span></a>
-			<span class='edit_quiz' data-quiz_id=".$quiz['id']."></span>
-			<span class='delete_quiz' data-quiz_id=".$quiz['id']."><span class='dashicons dashicons-trash'></span></span>
-		</td>";
-		echo "</tr>";
-	}
-	echo "</table>";
-}
 
+	$list = $wpdb->get_results("SELECT session_id, result  FROM ".$wpdb->prefix."branching_narratives_list WHERE post_id=".$post_id, ARRAY_A);
+	return $list;
+}
+ */
 
 

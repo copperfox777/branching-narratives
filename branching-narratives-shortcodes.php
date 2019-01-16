@@ -10,7 +10,7 @@ function introduction_shortcode($atts, $content = null ) {
     <div class="quiz_item" style="display: block;">
     <div class="answers">
     <div style="text-align:center;">
-    <button class="quiz_button" style="display:block;cursor:pointer;" goto="start" >Начать тест</button>
+    <button class="quiz_button" style="display:block;cursor:pointer;" goto="start" >Пройти историю</button>
     </div>
     </div>
     </div>
@@ -83,7 +83,7 @@ function quizanswer_shortcode($atts, $content = null ) {
 }
 add_shortcode('ответ', 'quizanswer_shortcode');
 
-//Ответ
+//Кнопка
 function quizbutton_shortcode($atts, $content = null ) {
     extract(shortcode_atts(array(
         'goto' => 'goto',
