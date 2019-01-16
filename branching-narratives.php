@@ -107,7 +107,7 @@ function custom_narratives_column( $column, $post_id ) {
 		$sessions = $wpdb->get_results("SELECT COUNT(DISTINCT session_id) AS itm FROM ".$wpdb->prefix."branching_narratives_list WHERE post_id=".$post_id,ARRAY_A);
 		// Сколько раз было что то нажато в том числе финиши
 		$clicks = $wpdb->get_results("SELECT COUNT(result) AS cnt, result FROM ".$wpdb->prefix."branching_narratives_list WHERE 
-		post_id=".$post_id." GROUP BY result",ARRAY_A);
+		post_id=".$post_id." AND (result LIKE '%finish%' OR result LIKE '%start%') GROUP BY result",ARRAY_A);
 		/* $clicks = $wpdb->get_results("SELECT COUNT(result) AS itm, result FROM ".$wpdb->prefix."branching_narratives_list WHERE 
 		result LIKE '%finish%' AND post_id=".$post_id." GROUP BY result",ARRAY_A);
 		 */
@@ -116,10 +116,10 @@ function custom_narratives_column( $column, $post_id ) {
 		echo 'Колличество  сессий: '; print_r($sessions[0]["itm"]); echo '<br>';
 		
 		foreach (array_reverse($clicks) as $item) {
-			if(preg_match("/(start|finish)/i", $item['result'])){
+			// if(preg_match("/(start|finish)/i", $item['result'])){
 			echo 'Колличество '.$item['result'].": ".$item['cnt']."</br>";
 			// echo '<pre>'; echo list($item); echo '</pre>';
-		   }
+		//    }
 		}
 
 		// echo '<pre>Отладка:'; print_r($clicks); echo '</pre>';

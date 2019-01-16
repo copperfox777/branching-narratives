@@ -10,7 +10,7 @@ function introduction_shortcode($atts, $content = null ) {
     <div class="quiz_item" style="display: block;">
     <div class="answers">
     <div style="text-align:center;">
-    <button class="quiz_button" style="display:block;cursor:pointer;" goto="start" >Пройти историю</button>
+    <button class="quiz_button" style="display:block;cursor:pointer;" goto="start" >Поехали!</button>
     </div>
     </div>
     </div>
