@@ -124,7 +124,7 @@ function custom_narratives_column( $column, $post_id ) {
 		}
 
 		// echo '<pre>Отладка:'; print_r($clicks); echo '</pre>';
-		// echo $post_id;
+		// echo $post_id; 
 		break;
 		 	
     }

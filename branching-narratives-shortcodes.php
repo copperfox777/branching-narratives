@@ -20,7 +20,7 @@ function introduction_shortcode($atts, $content = null ) {
 add_shortcode('вступление', 'introduction_shortcode'); 
 //TODO: Перенести стили в стайл CSS
 
-
+   
 
 //Шорткод старта 
 function start_shortcode($atts, $content = null ) {
