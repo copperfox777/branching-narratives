@@ -62,7 +62,7 @@ require_once('branching-narratives-shortcodes.php');
 
 // Подключение крон задачи для выгрузки статистики из мемкеша
 // (Статистика заносится в мемкэш с помощью файла stat-to-memcache.php)
-require_once('cron-flush-memcache.php');
+require_once('branching-narratives-cron.php');
 
  
 /* function showNarrStat($post_id) {
