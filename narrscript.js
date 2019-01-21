@@ -12,7 +12,7 @@ function SendAnswerToDatabase(goto_name) {
     };
 
     jQuery.ajax({
-        url: "/wp-content/plugins/branching-narratives/fast-ajax-save-results.php",
+        url: "/wp-content/plugins/branching-narratives/stat-to-memcache.php",
         type: "POST",
         data: data,
         dataType: "text",

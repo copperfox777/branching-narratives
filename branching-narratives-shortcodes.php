@@ -94,3 +94,13 @@ function quizbutton_shortcode($atts, $content = null ) {
     return $begining;   
 }
 add_shortcode('кнопка', 'quizbutton_shortcode');
+
+//Отключение <br> - для нормальной работы шорткодов
+function my_custom_formatting($content){
+	if(get_post_type()=='narratives') {
+		remove_filter( 'the_content', 'wpautop' );
+		return wpautop($content,0);//no autop
+	}
+	return $content;
+}
+add_filter('the_content','my_custom_formatting',0);

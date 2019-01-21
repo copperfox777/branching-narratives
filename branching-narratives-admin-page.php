@@ -2,63 +2,54 @@
 // В данные момент функционал этого файла отключен в branching-narratives.php
 // Оставляем только на всякий случай если захочется сделать свою админку 
 
-
-// добавляем панель управления плагином
-function branching_narratives_menu() {
-	$page_hook_suffix = add_posts_page( 'Нарративы_1', 'Статистика нарративов', 'edit_posts', 'branching-narratives-admin-page', 'branching_narratives_admin' );
-
-	
-	//add_posts_page('Редактирование викторины', 'Редактирование викторины', 'edit_posts', 'branching-narratives-edit-quiz', 'branching_narratives_edit' );
-	
-	
-	//add_action('admin_print_scripts-' . $page_hook_suffix, 'tp_admin_custom_scripts');
-	
-	//Страница конфигурации плагина
-	//add_submenu_page("edit.php","Настройки Викторин","Настройки викторин","manage_options","tp_quiz_config","tp_quiz_config");
+//Добавляем ссылку на статистику для нарратива для страницы списка всех нарративов
+// Пока не нужно потому что ститистика в сжатом виде и так норм
+/* function my_stat_post_link($actions, $post)
+{
+    if ($post->post_type=='narratives')
+    {
+        $actions['statistics'] = '<a href="#" title="" rel="permalink">Statistics</a>';
+    }
+    return $actions;
 }
+add_filter('post_row_actions', 'my_stat_post_link', 10, 2); */
 
-
-/* function tp_quiz_config(){
-	require_once("branching-narratives-config-page.php");
+// Добавляем для нарратива колонку со статистикой
+add_filter( 'manage_narratives_posts_columns', 'set_custom_edit_narratives_columns' );
+function set_custom_edit_narratives_columns($columns) {
+	unset( $columns['author'] );
+	unset( $columns['tags'] );
+    $columns['statistics'] = 'Краткая статистика';
+    return $columns;
 }
- */
-/* function tp_admin_custom_scripts(){
-	wp_enqueue_script('tp_quiz_admin', plugin_dir_url(__FILE__).'js/admin.js',array('jquery'), false, true);
-	wp_enqueue_style('tp_quiz_admin-style',plugin_dir_url(__FILE__).'css/admin-style.css');
-} */
+// Заполняем  колонку статистики созданную выше
+add_action( 'manage_narratives_posts_custom_column' , 'custom_narratives_column', 10, 2 );
+function custom_narratives_column( $column, $post_id ) {
+    switch ( $column ) {
+		case 'statistics' :
+		global $wpdb;
+		$database_table = $wpdb->prefix."branching_narratives_list";
+		
+		// В скольки сессиях были нажатия, сессий может быть меньше если кто то прошел более 1 раза за сессию
+		$sessions = $wpdb->get_results("SELECT COUNT(DISTINCT session_id) AS itm FROM ".$database_table." WHERE post_id=".$post_id,ARRAY_A);
 
+		// Сколько раз было нажато старт или финиш
+		$clicks = $wpdb->get_results("SELECT COUNT(result) AS cnt, result FROM ".$database_table." WHERE 
+		post_id=".$post_id." AND (result LIKE '%finish%' OR result LIKE '%start%') GROUP BY result",ARRAY_A);
+		
+		// Выводим статистику
+		echo 'Колличество  сессий: '; print_r($sessions[0]["itm"]); echo '<br>';
+		
+		foreach (array_reverse($clicks) as $item) {
+			// if(preg_match("/(start|finish)/i", $item['result'])){
+			echo 'Колличество '.$item['result'].": ".$item['cnt']."</br>";
+			// echo '<pre>'; echo list($item); echo '</pre>';
+		//    }
+		}
 
-//Код дальше выводит страницу со списком плагинов и прочее
-function branching_narratives_admin() {
-	if ( !current_user_can( 'edit_posts' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-	}
-
-	/* 
-	// если нужно, то показываем страницу редактирования
-	if ($_GET['act'] == 'edit') {
-	include('branching-narratives-edit-quiz.php');
-	return;
-	} */
-
-	// обрабатываем и сохраняем новую викторину, выводим 
-	//require_once('branching-narratives-create.php');
-
-	// подключаем функцию, которая выводит список викторин (showbranching_narrativesList())
-	// require_once('branching-narratives-list.php');
-
-	// выводим список викторин и форму создания новой (делаем доступной по клике на кнопку создания)
-	// стандартные настройки 
-	?>
-
-	<div class="wrap" id="branching_narratives">
-		<h1>Нарративы <a href="/wp-admin/post-new.php?post_type=narratives" class="page-title-action" id="create">Добавить новый нарратив</a></h1>
-
-
-		<div id="quiz_list">
-			<?php //showbranching_narrativesList() ?>
-		</div>
-
-	</div>
-<?php
+		// echo '<pre>Отладка:'; print_r($clicks); echo '</pre>';
+		// echo $post_id; 
+		break;
+		 	
+    }
 }
