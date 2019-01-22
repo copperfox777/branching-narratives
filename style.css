@@ -1,7 +1,7 @@
  
  /* по умолчанию делаем элементы скрытыми */
 
- .quiz_item, .answer_text > .descr, .quiz_item .quiz_button, .tquiz_progress {
+ .hidden, .quiz_item, .answer_text > .descr, .quiz_item .quiz_button, .tquiz_progress {
     display: none;
  }
  .answer > .percent {

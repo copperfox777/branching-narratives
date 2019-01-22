@@ -1,4 +1,7 @@
 <?php
+// Создаем задачу крон которая раз в две минуты выгружает статистику из мемкэша в БД
+// 
+
 // Создаем промежуток времени 3 мин для крона
 function cron_add_3minutes( $schedules ) {
     $schedules['every3minutes'] = array(
@@ -9,13 +12,12 @@ function cron_add_3minutes( $schedules ) {
 }
 add_filter( 'cron_schedules', 'cron_add_3minutes' );
 
-// создаем крон
+// создаем крон(добавляем проверку что наш крон активен каждый раз при загрузке вордпресса)
 function narr_cron_activation() {
 	if( !wp_next_scheduled( 'narr_cron_job' ) ) {  
 	   wp_schedule_event( time(), 'every3minutes', 'narr_cron_job' );  
 	}
 }
-// добавляем проверку что наш крон активен каждый раз при загрузке вордпресса
 add_action('wp', 'narr_cron_activation');
 
 // отключение крона при деактивации плагина
@@ -44,8 +46,6 @@ if($m->addServer('localhost', 11211)){
         if($wpdb->insert($database_table,$item)===FALSE){
             echo 'Error';
         }
-    
     }
 }
-
 add_action ('narr_cron_job', 'flush_narratives_cache');
