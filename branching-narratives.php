@@ -2,12 +2,17 @@
 /*
 Plugin Name: Ветвящиеся нарративы 
 Description: Добавляет возможность создавать истории с ветящимся сюжетом
-Version: 1.3
+Version: 1.4
 License: GPL
 Author: Франц Антон Месмер
-Author URI: http://ai-digest.ru/
 */
 
+// Подключаем установку плагина - это делается для создания таблицы в базе данных
+// и для обновления пермалинков
+require_once('branching-narratives-install.php');
+register_activation_hook( __FILE__, 'branching_narratives_install_bd'); 
+register_activation_hook( __FILE__, 'branching_narratives_install_permalinks' );
+add_action( 'init', 'narrs_flush_rewrite_rules', 20 );
 
 //Регистрируем новый тип записи нарратив
 function create_posttype_narratives() {
@@ -38,7 +43,7 @@ function create_posttype_narratives() {
         )
     );
 }
-add_action( 'init', 'create_posttype_narratives' );
+add_action( 'init', 'create_posttype_narratives',10);
 
 //Добавляем для типа записи "нарратив" загрузку нашего js
 function load_scripts() {
@@ -50,9 +55,7 @@ function load_scripts() {
 }
 add_action('wp_enqueue_scripts', 'load_scripts');
 
-//Подключаем установку плагина - это делается для создания таблицы в базе данных
-require_once('branching-narratives-install.php');
-register_activation_hook( __FILE__, 'branching_narratives_install');
+
 
 //Подключаем админку
 require_once('branching-narratives-admin-page.php');
