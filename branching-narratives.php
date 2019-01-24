@@ -49,8 +49,10 @@ add_action( 'init', 'create_posttype_narratives',10);
 function load_scripts() {
     if( is_singular('narratives') )
     {
-		wp_enqueue_script('narrscript', plugins_url( '/narrscript.js', __FILE__ ), array('jquery'), date("h:i:s"), true);
-		wp_enqueue_style('narrstyle', plugin_dir_url(__FILE__).'/style.css',date("h:i:s"));
+		//wp_enqueue_script('narrscript', plugins_url( '/narrscript.js', __FILE__ ), array('jquery'), date("h:i:s"), true);
+		//wp_enqueue_style('narrstyle', plugin_dir_url(__FILE__).'/style.css',date("h:i:s"));
+		wp_enqueue_script('narrscript', plugins_url( '/narrscript.js', __FILE__ ), array('jquery'), '1.0.0', true);
+		wp_enqueue_style('narrstyle', plugin_dir_url(__FILE__).'style.css','1.0.0'); 
     } 
 }
 add_action('wp_enqueue_scripts', 'load_scripts');
